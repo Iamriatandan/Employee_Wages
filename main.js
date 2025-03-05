@@ -1,4 +1,4 @@
-//UC3 Calculating daily wage using function
+//UC4 Calculating daily wage using function
 
 //function to calculate working hours
 
@@ -27,9 +27,11 @@ const FULL_TIME_HOURS = 8;
 const WAGE_PER_HOUR = 20;
 
 let empHours =0;
-let empCheck = Math.floor(Math.random()*10) % 3;
-
-empHours = getWorkingHours(empCheck);
+const NUM_OF_WORKING_DAYS = 20;
+for(let day = 0 ;day<NUM_OF_WORKING_DAYS;day++){
+    let empCheck = Math.floor(Math.random()*10) % 3; 
+    empHours += getWorkingHours(empCheck);
+}
 
 let empWage = empHours * WAGE_PER_HOUR;
-console.log("Employee Wage : " , empWage);
+console.log("Total Hours : " , empHours , "Employee Wage : " , empWage);
