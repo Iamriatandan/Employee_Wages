@@ -1,11 +1,14 @@
-//UC7 Helper Functions
+//constats
 
 const WAGE_PER_HOUR = 20;
 const MAX_HOURS_IN_A_MONTH =160;
 const NUM_OF_WORKING_DAYS = 20;
+
+//variables
 let totalEmpHours =0;
 let totalWorkingDays =0;
 let employeeDailyWageArray = new Array();
+let employeeDailyWageMap = new Map();
 
 //function to calculate working hours
 
@@ -29,23 +32,22 @@ let empHours = 0;
         return empHours;
 }
 
-while(totalEmpHours<MAX_HOURS_IN_A_MONTH && totalWorkingDays<NUM_OF_WORKING_DAYS){
-    totalWorkingDays++;
-    let empCheck = Math.floor(Math.random()*10) % 3; 
-    let empHours = getWorkingHours(empCheck);
-    totalEmpHours += empHours;
-    employeeDailyWageArray.push(calculateDailyWage(empHours));
-}
-
-let empWage = calculateDailyWage(totalEmpHours);
-
-
 //function to calculate daily wage
 
 function calculateDailyWage(empHours){
     return empHours *WAGE_PER_HOUR;
 }
 
+while(totalEmpHours<MAX_HOURS_IN_A_MONTH && totalWorkingDays<NUM_OF_WORKING_DAYS){
+    totalWorkingDays++;
+    let empCheck = Math.floor(Math.random()*10) % 3; 
+    let empHours = getWorkingHours(empCheck);
+    totalEmpHours += empHours;
+    employeeDailyWageArray.push(calculateDailyWage(empHours));
+    employeeDailyWageMap.set(totalWorkingDays,calculateDailyWage(empHours));
+}
+
+//UC 7 Helper functions
 
 //UC 7A - Calculating total wage using array for each traversal
 
@@ -55,13 +57,14 @@ function sum(dailyWage){
 }
 
 employeeDailyWageArray.forEach(sum);
-console.log( " UC 7A :- Total Days : " , totalWorkingDays ,"Total Hours : " , totalEmpHours , "Employee Wage : " , empWage);
 
+console.log("UC 7A - Employee wage with reduce : " + employeeDailyWageArray.reduce(totalWages,0));
+
+console.log(employeeDailyWageMap);
 function totalWages(totalWage,dailyWage){
     return totalWage+dailyWage;
 }
-
-console.log("UC 7A - Employee wage with reduce : " + employeeDailyWageArray.reduce(totalWages,0));
+console.log("UC 7A - Total wage computed using Map : " , Array.from(employeeDailyWageMap.values()).reduce(totalWages,0));
 
 //UC 7B - Show the day along with Daily Wage using Array map helper function 
 
@@ -77,7 +80,7 @@ console.log(mapDayWithWageArray);
 
 //UC 7C - Show Days when Full time wage of 160 were earned 
 function fullTimeWage(dailyWage){
-    return dailyWage.includes("160");
+    return dailyWage === 160;
 }
 
 let fullDayWageArray = mapDayWithWageArray.filter(fullTimeWage);
