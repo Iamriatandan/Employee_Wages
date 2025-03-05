@@ -1,10 +1,11 @@
-//UC6 store daily wage with total wage
+//UC7 Helper Functions
 
-//function to calculate daily wage
 const WAGE_PER_HOUR = 20;
-function calculateDailyWage(empHours){
-    return empHours *WAGE_PER_HOUR;
-}
+const MAX_HOURS_IN_A_MONTH =160;
+const NUM_OF_WORKING_DAYS = 20;
+let totalEmpHours =0;
+let totalWorkingDays =0;
+let employeeDailyWageArray = new Array();
 
 //function to calculate working hours
 
@@ -13,25 +14,20 @@ function getWorkingHours(empCheck){
 const PART_TIME_HOURS = 4;
 const FULL_TIME_HOURS = 8;
 
+let empHours = 0;
     switch(empCheck){
-        case 1 : totalEmpHours = PART_TIME_HOURS;
+        case 1 : empHours = PART_TIME_HOURS;
         break;
         
-        case 2 : totalEmpHours = FULL_TIME_HOURS;
+        case 2 :empHours= FULL_TIME_HOURS;
         break;
         
-        default : totalEmpHours =0;
+        default : empHours =0;
         break;
         }
         
-        return totalEmpHours;
+        return empHours;
 }
-
-const MAX_HOURS_IN_A_MONTH =160;
-const NUM_OF_WORKING_DAYS = 20;
-let totalEmpHours =0;
-let totalWorkingDays =0;
-let employeeDailyWageArray = new Array();
 
 while(totalEmpHours<MAX_HOURS_IN_A_MONTH && totalWorkingDays<NUM_OF_WORKING_DAYS){
     totalWorkingDays++;
@@ -42,4 +38,78 @@ while(totalEmpHours<MAX_HOURS_IN_A_MONTH && totalWorkingDays<NUM_OF_WORKING_DAYS
 }
 
 let empWage = calculateDailyWage(totalEmpHours);
-console.log( " UC6 :- Total Days : " , totalWorkingDays ,"Total Hours : " , totalEmpHours , "Employee Wage : " , empWage);
+
+
+//function to calculate daily wage
+
+function calculateDailyWage(empHours){
+    return empHours *WAGE_PER_HOUR;
+}
+
+
+//UC 7A - Calculating total wage using array for each traversal
+
+let totalEmpWage =0;
+function sum(dailyWage){
+    totalEmpWage += dailyWage;
+}
+
+employeeDailyWageArray.forEach(sum);
+console.log( " UC 7A :- Total Days : " , totalWorkingDays ,"Total Hours : " , totalEmpHours , "Employee Wage : " , empWage);
+
+function totalWages(totalWage,dailyWage){
+    return totalWage+dailyWage;
+}
+
+console.log("UC 7A - Employee wage with reduce : " + employeeDailyWageArray.reduce(totalWages,0));
+
+//UC 7B - Show the day along with Daily Wage using Array map helper function 
+
+let dailyCntr =0;
+function mapDayWithWage(dailyWage){
+    dailyCntr++;
+    return dailyCntr + " = " + dailyWage;
+}
+
+let mapDayWithWageArray = employeeDailyWageArray.map(mapDayWithWage);
+console.log("UC 7B - Daily Wage Map");
+console.log(mapDayWithWageArray);
+
+//UC 7C - Show Days when Full time wage of 160 were earned 
+function fullTimeWage(dailyWage){
+    return dailyWage.includes("160");
+}
+
+let fullDayWageArray = mapDayWithWageArray.filter(fullTimeWage);
+console.log("UC 7C - Daily Wage Filter when FullTime Wage Earned");
+console.log(fullDayWageArray);
+
+//UC 7D - Find the first occurrence when Full Time Wage  was earned using find function 
+function findFullTimeWage(dailyWage){
+    return dailyWage.includes("160");
+}
+console.log("UC 7D - First time FullTime wage was earned on Day : " + mapDayWithWageArray.find(findFullTimeWage));
+
+//UC 7E - Check if every element of full time wage is truly holding full time wage
+function isAllFullTimeWage(dailyWage){
+    return dailyWage.includes("160");
+}
+console.log("UC 7E - Check all element have full time wage : " + fullDayWageArray.every(isAllFullTimeWage));
+
+
+//UC 7F - Find the number of days the Employee Worked
+function isAnyPartTimeWage(dailyWage){
+    return dailyWage.includes("80");
+}
+console.log("UC 7F - Check if any part Time wage : " + mapDayWithWageArray.some(isAnyPartTimeWage));
+
+//UC 7G - Find the number of days employee worked 
+function totalDaysWorked(numOfDays,dailyWage){
+    if(dailyWage>0) return numOfDays +1;
+    return numOfDays;
+}
+
+console.log("UC 7G - Number of Days Employee Worked : " + employeeDailyWageArray.reduce(totalDaysWorked,0));
+
+
+
