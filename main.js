@@ -1,3 +1,4 @@
+//UC 9 Arrow FUNCTIONS
 //constats
 
 const WAGE_PER_HOUR = 20;
@@ -9,6 +10,7 @@ let totalEmpHours =0;
 let totalWorkingDays =0;
 let employeeDailyWageArray = new Array();
 let employeeDailyWageMap = new Map();
+let employeDailyHoursMap = new Map();
 
 //function to calculate working hours
 
@@ -45,9 +47,33 @@ while(totalEmpHours<MAX_HOURS_IN_A_MONTH && totalWorkingDays<NUM_OF_WORKING_DAYS
     totalEmpHours += empHours;
     employeeDailyWageArray.push(calculateDailyWage(empHours));
     employeeDailyWageMap.set(totalWorkingDays,calculateDailyWage(empHours));
+    employeDailyHoursMap.set(totalWorkingDays,empHours);
+
+    if(!employeDailyHoursMap.has(totalWorkingDays)){
+        employeDailyHoursMap.set(totalWorkingDays,empHours);
+    }
 }
 
-//UC 7 Helper functions
+
+const findTotal = (totalVal,dailyVal) => {return totalVal+dailyVal;}
+let count =0;
+let totalHours = Array.from(employeDailyHoursMap.values()).reduce(findTotal,0);
+let totalSalary = employeeDailyWageArray.filter(dailyWage => dailyWage>0).reduce(findTotal,0);
+console.log("UC 9 - Employee Wage with arrow : " + "Total Hours : " + totalHours + "Total Wages" + totalSalary);
+
+let nonWorkingDays = new Array();
+let partWorkingDays = new Array();
+let fullWorkingDays = new Array();
+
+employeDailyHoursMap.forEach((value,key,map) => {
+    if(value ==8) fullWorkingDays.push(key);
+    else if(value == 4) partWorkingDays.push(key);
+    else nonWorkingDays.push(key);
+});
+
+console.log("Full Working Days : " + fullWorkingDays);
+console.log("Part Working days  : " + partWorkingDays);
+console.log("Non Working Days : " + nonWorkingDays);
 
 //UC 7A - Calculating total wage using array for each traversal
 
