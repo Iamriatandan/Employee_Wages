@@ -1,4 +1,4 @@
-//UC 10 Object Creation
+//UC 11 Object operations using arrow functions
 //constants
 
 const WAGE_PER_HOUR = 20;
@@ -65,24 +65,30 @@ while(totalEmpHours<MAX_HOURS_IN_A_MONTH && totalWorkingDays<NUM_OF_WORKING_DAYS
 //UC 10 show daily hours and wage earned 
 console.log("UC 10 Showing Daily Hours Worked and Wage Earned : " + employeeDailyHoursAndWageArray);
 
-//UC9 - Total hours and wages using arrow functions
+
+//UC-11 A  - Total hours and wages using arrow functions
 
 const findTotal = (total,value) => total + value;
 
 let totalHours = employeeDailyHoursAndWageArray.map(day => day.dailyHours).reduce(findTotal,0);
-let totalSalary = employeeDailyWageArray.reduce(findTotal,0);
-console.log("UC 9 - Employee Wage with arrow : " + "Total Hours : " + totalHours + "Total Wages" + totalSalary);
+let totalSalary =employeeDailyHoursAndWageArray.map(day => day.dailyWage).reduce(findTotal,0);
+console.log("Total Hours : " + totalHours + "Total Wages : " + totalSalary);
 
+//UC-11 B Show full working Days using foreach
+console.log("Full Working Days : ");
+employeeDailyHoursAndWageArray.forEach(day =>{
+    if(day.dailyHours === 8 ) console.log("Day " + day.dayNum);
+});
 
-//UC8 - WORKDAYS segregation
-let fullWorkingDays = employeeDailyHoursAndWageArray.filter(day => day.dailyHours === 8).map(day =>day.dayNum);
-let partWorkingDays = employeeDailyHoursAndWageArray.filter(day => day.dailyHours === 4).map(day =>day.dayNum);
-let nonWorkingDays = employeeDailyHoursAndWageArray.filter(day => day.dailyHours === 0).map(day =>day.dayNum);
+//UC 11 C Show part working days using map by reducing to string Array
+let partWorkingDaysStringArray = employeeDailyHoursAndWageArray.filter(day=>day.dailyHours ===4)
+.map(day=> "Day " + day.dayNum);
+console.log("Part Working Days: ",partWorkingDaysStringArray);
 
-
-console.log("Full Working Days : " + fullWorkingDays);
-console.log("Part Working days  : " + partWorkingDays);
-console.log("Non Working Days : " + nonWorkingDays);
+//UC-11 D No working days using map function 
+let nonWorkingDays = employeeDailyHoursAndWageArray.filter(day => day.dailyHours === 0 )
+.map(day => day.dayNum);
+console.log("Non working days: ",nonWorkingDays);
 
 //UC 7A - Calculating total wage using array for each traversal
 console.log("UC 7A - Total wage calculated using map :" , Array.from(employeeDailyWageMap.values()).reduce(findTotal,0));
